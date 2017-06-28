@@ -4,7 +4,7 @@ using Argonaught.Model;
 namespace Argonaught.Internal.Model
 {
 
-    public class RefreshToken : IRefreshToken
+    internal class RefreshToken : IRefreshToken
     {
         public RefreshToken(string id, string subject, string audienceId, DateTime issuedUtc, DateTime expiresUtc, string protectedTicket)
         {
