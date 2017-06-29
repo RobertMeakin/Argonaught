@@ -5,16 +5,17 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.2" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.2" />-->
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.3" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
   </ItemGroup>
   <PropertyGroup>
+    <Title>Argonaught</Title>
     <Authors>Robert Meakin</Authors>
-    <PackageVersion>1.0.0-beta</PackageVersion>
-    <Description>An easy to use library that helps developers of dotnet core mvc/webapi applications create and use JWT (Jason Web token) access and refresh tokens for authentication.</Description>
-    <PackageProjectUrl>https://www.google.co.uk</PackageProjectUrl>
+    <PackageVersion>1.0.1-beta</PackageVersion>
+    <Description>An easy to use library that helps developers of .NET Core mvc/webapi applications create and use access and refresh tokens for authentication.</Description>
+    <PackageProjectUrl>https://github.com/RobertMeakin/Argonaught</PackageProjectUrl>
   </PropertyGroup>
 </Project>
