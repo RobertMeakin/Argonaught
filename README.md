@@ -11,7 +11,7 @@ In command line / terminal:
 mkdir ArgonaughtTest
 cd ArgonaughtTest
 dotnet new webapi
-dotnet add package Argonaught -v 1.0.0-beta
+dotnet add package Argonaught -v 1.0.1-beta
 dotnet restore
 ```
 
