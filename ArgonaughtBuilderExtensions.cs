@@ -23,10 +23,10 @@ namespace Argonaught {
             app.UseMiddleware<RequestFormatPolicy>(Options.Create(argonautOptions));
             app.UseMiddleware<OriginPolicy>(Options.Create(argonautOptions));
             app.UseMiddleware<ResponsePolicy>(Options.Create(argonautOptions));
-
+            app.UseAuthentication();
+            
             return app;
         }
-
 
     }
 }
