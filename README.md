@@ -242,7 +242,7 @@ ___
 
 It is possible to use Argonaught on both the authentication server (whose job it is to check the user's password and permissions and return the access token) and the data server (that only needs to check the user has the correct claims).
 
-If a server only needs to verify permissions and not create the tokens, only pass in the audiences to the ArgonautOptions object. That feature will then be turned off.
+If a server only needs to verify permissions and not create the tokens, only pass in the audiences to the ArgonautOptions object. The features relating to creating the tokens will then be turned off 
 
 ```csharp
 var argonautOptions = new ArgonautOptions(AudienceList);
