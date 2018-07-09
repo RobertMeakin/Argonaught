@@ -236,6 +236,17 @@ public class ValuesController : Controller
 
 The attribute code is also included at the bottom in case developers want to modify it.
 
+___
+
+### Seperate Authentication Server
+
+It is possible to use Argonaught on both the authentication server (whose job it is to check the user's password and permissions and return the access token) and the data server (that only needs to check the user has the correct claims).
+
+If a server only needs to verify permissions and not create the tokens, only pass in the audiences to the ArgonautOptions object. That feature will then be turned off.
+
+```csharp
+var argonautOptions = new ArgonautOptions(AudienceList);
+```
 
 ___
 
@@ -331,6 +342,9 @@ Required parameters must be passed in at the point of initialisation.
 
 `string APIPath`
 **Optional** *Default: "api/"*. This value needs to be found in the url in order for preflight GET requests to succeed. Only change if your api will not include 'api/' in the url.
+
+`bool VisualiseClaims`
+**Optional** *Default: false*. If true the claims will be printed under the access token in English. Otherwise, they are only encoded in the access token.
 
 ___
 
