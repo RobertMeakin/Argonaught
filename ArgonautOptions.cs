@@ -23,6 +23,17 @@ namespace Argonaught {
             this.ValidateUser = validateUser;
             this.RefreshAccessToken = refreshAccessToken;
             this.RefreshTokenGenerated = refreshTokenGenerated;
+            this.IncludeAuthGeneration = true;
+        }
+
+        public ArgonautOptions(IEnumerable<IAudience> audiences) {
+            var myName = nameof(ArgonautOptions);
+
+            if (audiences == null)
+                throw new ArgumentNullException(myName);
+
+            this.Audiences = audiences;
+            this.IncludeAuthGeneration = false;
         }
 
         public ArgonautOptions() =>
@@ -55,6 +66,11 @@ namespace Argonaught {
         /// Defaults to five minutes.
         /// </summary>
         public int AccessTokenLifetimeMinutes { get; set; } = 5;
+
+        /// <summary>
+        /// Defaults to false. If true, Argonaught will create endpoints for creating access and refresh tokens, Otherwise it will only handle authorising existing access tokens.
+        /// </summary>
+        public bool IncludeAuthGeneration { get; private set; }
 
         /// <summary>
         /// Defaults to '[root]/token'. The path used to access the api token end point. 

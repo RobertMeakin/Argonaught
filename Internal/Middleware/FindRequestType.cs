@@ -24,7 +24,7 @@ namespace Argonaught.Internal.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            context.Items["RequestType"] = context.GetArgonaughtRequestType(_options.APIPath);
+            context.Items["RequestType"] = context.GetArgonaughtRequestType(_options.APIPath, _options.IncludeAuthGeneration);
             await _next(context);
         }
 

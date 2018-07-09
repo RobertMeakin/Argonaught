@@ -13,7 +13,7 @@
   <PropertyGroup>
     <Title>Argonaught</Title>
     <Authors>Robert Meakin</Authors>
-    <PackageVersion>2.0.2-beta</PackageVersion>
+    <PackageVersion>2.0.3-beta</PackageVersion>
     <Description>An easy to use library that helps developers of .NET Core mvc/webapi applications create and use access and refresh tokens for authentication.</Description>
     <PackageProjectUrl>https://github.com/RobertMeakin/Argonaught</PackageProjectUrl>
   </PropertyGroup>
