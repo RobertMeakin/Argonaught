@@ -3,80 +3,66 @@ using Argonaught.Internal;
 using Argonaught.Internal.Interfaces;
 using Argonaught.Internal.RequestTypes.RequestResponse.Interfaces;
 using Domain = Argonaught.Internal.DomainObjects;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Argonaught.Internal.RequestTypes.RequestResponse
-{
-    internal class RefreshTokenRequestResponse : IRequestTypeReponse
-    {
+namespace Argonaught.Internal.RequestTypes.RequestResponse {
+    internal class RefreshTokenRequestResponse : IRequestTypeReponse {
         private JWTBuilder _jwtBuilder;
         private IEncryptor _encryptor;
 
-        public RefreshTokenRequestResponse()
-        {
+        public RefreshTokenRequestResponse() {
             _encryptor = new StringCipher();
         }
-        public async Task Execute(RequestDelegate next, HttpContext context, ArgonautOptions options)
-        {
+        public async Task Execute(RequestDelegate next, HttpContext context, ArgonautOptions options) {
             var rtFromRequest = context.Request.Form["refresh_token"];
-            var hashedRefreshTokenId = Domain.RefreshToken.ReturnHash(rtFromRequest);
+            var hashedRefreshTokenId = Argonaught.Internal.Hashing.GetHash(rtFromRequest);
 
             var persistenceResponse = options.RefreshAccessToken(hashedRefreshTokenId); //Client returns refresh token model with encrpted ticket.
 
-            if (persistenceResponse == null)
-            {
+            if (persistenceResponse == null) {
                 await RespondRefreshTokenInvalid(context);
                 return;
             }
 
-            if (persistenceResponse.RefreshToken == null)
-            {
+            if (persistenceResponse.RefreshToken == null) {
                 await RespondRefreshTokenInvalid(context);
                 return;
             }
 
-            if (persistenceResponse.Audience == null)
-            {
+            if (persistenceResponse.Audience == null) {
                 await RespondRefreshTokenInvalid(context);
                 return;
             }
 
             //Map to domain refresh token
             Domain.RefreshToken rt = Domain.RefreshToken.New(
-                    persistenceResponse.RefreshToken.Id,
-                    persistenceResponse.RefreshToken.Subject,
-                    persistenceResponse.RefreshToken.AudienceId,
-                    persistenceResponse.RefreshToken.ProtectedTicket,
-                    persistenceResponse.RefreshToken.IssuedUtc,
-                    persistenceResponse.RefreshToken.ExpiresUtc
-                    );
+                persistenceResponse.RefreshToken.Id,
+                persistenceResponse.RefreshToken.Subject,
+                persistenceResponse.RefreshToken.AudienceId,
+                persistenceResponse.RefreshToken.ProtectedTicket,
+                persistenceResponse.RefreshToken.IssuedUtc,
+                persistenceResponse.RefreshToken.ExpiresUtc
+            );
 
             var nowUtc = DateTime.UtcNow; //TODO: Could do with moving to interface
-            if (nowUtc > rt.ExpiresUtc)
-            {
+            if (nowUtc > rt.ExpiresUtc) {
                 await RespondRefreshTokenInvalid(context);
                 return;
             }
 
-
-            try
-            {
+            try {
                 rt.DecryptTicket(_encryptor, rtFromRequest.ToString());
-            }
-            catch
-            {
+            } catch {
                 context.Response.StatusCode = 401;
                 await context.Response.WriteAsync("Persisted refresh token failed decryption - Log in using username and password.");
                 return;
             }
 
-
-            if (rt.ProtectedTicket == null)
-            {
+            if (rt.ProtectedTicket == null) {
                 await RespondRefreshTokenInvalid(context);
                 return;
             }
@@ -85,19 +71,14 @@ namespace Argonaught.Internal.RequestTypes.RequestResponse
             var handler = new JwtSecurityTokenHandler();
 
             Microsoft.IdentityModel.Tokens.SecurityToken validatedToken = null;
-            try
-            {
+            try {
                 handler.ValidateToken(rt.ProtectedTicket, vp, out validatedToken);
-            }
-            catch
-            {
+            } catch {
                 await RespondRefreshTokenInvalid(context);
                 return;
             }
 
-
-            if (validatedToken == null)
-            {
+            if (validatedToken == null) {
                 await RespondRefreshTokenInvalid(context);
                 return;
             }
@@ -126,15 +107,13 @@ namespace Argonaught.Internal.RequestTypes.RequestResponse
             //Generate event for client to save refresh token to persistence
             options.RefreshTokenGenerated(
                 new Internal.Model.RefreshToken(rt.Id, rt.Subject, rt.AudienceId, rt.IssuedUtc, rt.ExpiresUtc, rt.ProtectedTicket)
-                );
+            );
 
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-
-        public async Task RespondRefreshTokenInvalid(HttpContext context)
-        {
+        public async Task RespondRefreshTokenInvalid(HttpContext context) {
             context.Response.StatusCode = 401;
             await context.Response.WriteAsync("Invalid refresh Token - Log in using username and password.");
         }

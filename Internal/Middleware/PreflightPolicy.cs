@@ -20,7 +20,7 @@ namespace Argonaught.Internal.Middleware
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { context.Request.Headers["Origin"].ToString() });
                 context.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "Authorization, Origin, X-Requested-With, Content-Type, Accept" });
-                context.Response.Headers.Add("Access-Control-Allow-Methods", new[] { "GET, POST, PUT, DELETE, OPTIONS" });
+                context.Response.Headers.Add("Access-Control-Allow-Methods", new[] { "GET, POST, PUT, PATCH, DELETE, OPTIONS" });
                 context.Response.Headers.Add("Access-Control-Allow-Credentials", new[] { "true" });
                 return;
             }
