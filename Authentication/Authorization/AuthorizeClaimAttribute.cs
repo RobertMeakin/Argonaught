@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Argonaught.Authentication.Authorization {
 
-    [AttributeUsage(AttributeTargets.All)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeClaimAttribute : TypeFilterAttribute {
         public AuthorizeClaimAttribute(string claimType, string claimValue) : base(typeof(AuthorizeClaimFilter)) {
             Arguments = new object[] { new Claim(claimType, claimValue) };

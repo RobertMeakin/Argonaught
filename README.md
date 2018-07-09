@@ -40,6 +40,10 @@ public void ConfigureServices(IServiceCollection services)
     {
         options.AddPolicy("ExamplePolicy", policy => policy.RequireClaim("canDoThis", "True").RequireClaim("canDoThat", "True"));
     });
+
+    //The audience details will normally be stored as environment variables in the app using the tokens for authorisation / authenticaion.
+    var audience = ArgonaughtTesting.Audiences.FirstOrDefault(x => x.Id == "ExampleAudience1");
+    services.AddArgonaught(audience);
     //End new code.
 }
 ```
@@ -184,6 +188,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
     loggerFactory.AddDebug();
     
     //New code. Place Argonaught before app.UseMvc();
+    //This will be persisted on the authorisation/authentication server.
     var argonautOptions = new ArgonautOptions(
         ArgonaughtTesting.Audiences, 
         ArgonaughtTesting.ExampleValidateUserFunction, 
@@ -215,6 +220,22 @@ public class ValuesController : Controller
 ```
 
 The setup is now complete and can be tested by running or debugging your application and opening an API testing tool, like [Postman](https://www.getpostman.com/).
+
+
+**Or, Authenticate and Authorise On Controllers Using Custom Attribute **
+
+```csharp
+[Route("api/[controller]")]
+[AuthorizeClaim("can_do_this", "true")]//<-- New code
+public class ValuesController : Controller
+{
+...
+```
+
+`AuthorizeClaim` is available here: `using Argonaught.Authentication.Authorization;`
+
+The attribute code is also included at the bottom in case developers want to modify it.
+
 
 ___
 
@@ -283,6 +304,7 @@ Authorization:Bearer generated_access_token
 
 ___
 
+
 ### Argonaught Options Object
 
 This is needed to add Argonaught to the pipeline.
@@ -344,3 +366,47 @@ To be persisted by the application, presumably in a database.
 `ExpiresUtc` *Universal time of expiry.*
 
 `ProtectedTicket` *The encrypted access token containing the claims for the user. Argonaught will decrypt and use this to regenerate the claims for a new access token. This means that if a user's claims are changed they either need to log out and log in again or you can force them to do so by deleting their refresh token in the databse.*
+
+
+### AuthorizeClaimAttribute
+
+```csharp
+using System;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace Argonaught.Authentication.Authorization {
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class AuthorizeClaimAttribute : TypeFilterAttribute {
+        public AuthorizeClaimAttribute(string claimType, string claimValue) : base(typeof(AuthorizeClaimFilter)) {
+            Arguments = new object[] { new Claim(claimType, claimValue) };
+        }
+    }
+
+    internal class AuthorizeClaimFilter : IAuthorizationFilter {
+        readonly Claim _claim;
+
+        public AuthorizeClaimFilter(Claim claim) {
+            _claim = claim;
+        }
+
+        public void OnAuthorization(AuthorizationFilterContext context) {
+            var authenticated = context.HttpContext.User.Identities.FirstOrDefault(x => x.IsAuthenticated == true) != null ? true : false;
+            if (!authenticated) {
+                context.Result = new UnauthorizedResult();
+                return;
+            }
+
+            var hasClaim = context.HttpContext.User.Claims.Any(c => c.Type == _claim.Type && c.Value == _claim.Value);
+            if (!hasClaim) {
+                context.Result = new ForbidResult();
+                return;
+            }
+        }
+    }
+
+}
+```
