@@ -2,25 +2,22 @@ using System;
 using System.Collections.Generic;
 using Argonaught.Model;
 
-namespace Argonaught
-{
-    public class ArgonautOptions
-    {
-        public ArgonautOptions(IEnumerable<IAudience> audiences, Func<string, string, string, ArgonaughtUser> validateUser, Func<string, RefreshResponse> refreshAccessToken, Action<IRefreshToken> refreshTokenGenerated)
-        {
+namespace Argonaught {
+    public class ArgonautOptions {
+        public ArgonautOptions(IEnumerable<IAudience> audiences, Func<string, string, string, ArgonaughtUser> validateUser, Func<string, RefreshResponse> refreshAccessToken, Action<IRefreshToken> refreshTokenGenerated) {
             var myName = nameof(ArgonautOptions);
-            
-            if(audiences == null)
+
+            if (audiences == null)
                 throw new ArgumentNullException(myName);
-            
-            if(validateUser == null)
+
+            if (validateUser == null)
                 throw new ArgumentNullException(myName + "." + nameof(validateUser));
-            
-             if(refreshAccessToken == null)
+
+            if (refreshAccessToken == null)
                 throw new ArgumentNullException(myName + "." + nameof(refreshAccessToken));
 
-            if(refreshTokenGenerated == null)
-                throw new ArgumentNullException(myName + "." + nameof(refreshTokenGenerated));           
+            if (refreshTokenGenerated == null)
+                throw new ArgumentNullException(myName + "." + nameof(refreshTokenGenerated));
 
             this.Audiences = audiences;
             this.ValidateUser = validateUser;
@@ -28,9 +25,8 @@ namespace Argonaught
             this.RefreshTokenGenerated = refreshTokenGenerated;
         }
 
-        public ArgonautOptions()
-            => throw new ArgumentNullException("Parameterless constructor not allowed for " + nameof(ArgonautOptions) + ". Exists only to allow class to be used as options.");
-        
+        public ArgonautOptions() =>
+            throw new ArgumentNullException("Parameterless constructor not allowed for " + nameof(ArgonautOptions) + ". Exists only to allow class to be used as options.");
 
         public IEnumerable<IAudience> Audiences { get; private set; }
 
@@ -38,7 +34,7 @@ namespace Argonaught
         /// Called by Argonaught when a user attempts to login by passing a username, password and audience.
         /// This function should check with the database that the user is allowed access to the requested audience and pass back the user's claims, along with the full audience object.
         /// </summary>
-        public Func<string, string, string, ArgonaughtUser> ValidateUser { get; private set; } 
+        public Func<string, string, string, ArgonaughtUser> ValidateUser { get; private set; }
 
         /// <summary>
         /// This function is called when the user requests a new access token using a refresh token.
@@ -49,13 +45,11 @@ namespace Argonaught
         /// /// <returns>RefreshResponse</returns>
         public Func<string, RefreshResponse> RefreshAccessToken { get; private set; }
 
-
         /// <summary>
         /// Called whenever a refesh token has been generated. Use to store in the database for later validation.
         /// It is recommended to delete any existing relevant tokens for the user before saving the new one. 
         /// </summary>
         public Action<IRefreshToken> RefreshTokenGenerated { get; private set; }
-
 
         /// <summary>
         /// Defaults to five minutes.
@@ -72,7 +66,10 @@ namespace Argonaught
         /// </summary>
         public string APIPath { get; set; } = "api/";
 
-
+        /// <summary>
+        /// Defaults to false. Set to true if the access token should include a plain English representation of the claims. Useful for debugging.
+        /// </summary>
+        public bool VisualiseClaims { get; set; } = false;
 
     }
 }

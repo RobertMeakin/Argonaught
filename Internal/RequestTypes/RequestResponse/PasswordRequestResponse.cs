@@ -46,6 +46,7 @@ namespace Argonaught.Internal.RequestTypes.RequestResponse
 
             _jwtBuilder.Subject = subject;
             _jwtBuilder.Expiration = TimeSpan.FromMinutes(options.AccessTokenLifetimeMinutes);
+            _jwtBuilder.VisualiseClaims = options.VisualiseClaims;
             _jwtBuilder.Build();
 
             var response = _jwtBuilder.GetWebResponse();
