@@ -222,7 +222,7 @@ public class ValuesController : Controller
 The setup is now complete and can be tested by running or debugging your application and opening an API testing tool, like [Postman](https://www.getpostman.com/).
 
 
-**Or, Authenticate and Authorise On Controllers Using Custom Attribute **
+**Or, Authenticate and Authorise On Controllers Using Custom Attribute**
 
 ```csharp
 [Route("api/[controller]")]
