@@ -1,8 +1,8 @@
 using System;
-using Argonaught.Model;
+using Argonaut.Model;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Argonaught.Internal
+namespace Argonaut.Internal
 {
     internal class JWTValidationParametersGenerator
     {

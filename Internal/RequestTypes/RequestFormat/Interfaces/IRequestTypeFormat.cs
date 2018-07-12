@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.RequestTypes.RequestFormat.Interfaces
+namespace Argonaut.Internal.RequestTypes.RequestFormat.Interfaces
 {
     internal interface IRequestTypeFormat
     {

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace Argonaught.Model
+namespace Argonaut.Model
 {
-    public class ArgonaughtUser
+    public class ArgonautUser
     {
-        public ArgonaughtUser(bool validated, IAudience audience)
+        public ArgonautUser(bool validated, IAudience audience)
         {
             if (audience == null)
                 this.Validated = false;

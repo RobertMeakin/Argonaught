@@ -1,7 +1,7 @@
-using Argonaught.Internal.RequestTypes.RequestFormat.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestFormat.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.RequestTypes.RequestFormat
+namespace Argonaut.Internal.RequestTypes.RequestFormat
 {
     internal class RefreshTokenRequestFormat : IRequestTypeFormat
     {

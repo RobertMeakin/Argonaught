@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using Argonaught.Internal.RequestTypes.Interfaces;
+using Argonaut.Internal.RequestTypes.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace Argonaught.Internal.Middleware
+namespace Argonaut.Internal.Middleware
 {
     internal class FindRequestType
     {
@@ -24,7 +24,7 @@ namespace Argonaught.Internal.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            context.Items["RequestType"] = context.GetArgonaughtRequestType(_options.APIPath, _options.IncludeAuthGeneration);
+            context.Items["RequestType"] = context.GetArgonautRequestType(_options.APIPath, _options.IncludeAuthGeneration);
             await _next(context);
         }
 

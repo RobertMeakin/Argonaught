@@ -1,5 +1,5 @@
-# Argonaught
-The aim of Argonaught is to make access and refresh token authentication in ASP.NET Core simple.
+# Argonaut
+The aim of Argonaut is to make access and refresh token authentication in ASP.NET Core simple.
 
 It's possible (admittedly at a push) to go from creating a blank webapi project to having the demo up and running in less than a minute.
 
@@ -8,10 +8,10 @@ This code has not yet been used in a production environment. It is currently in 
 ### Quick Tutorial
 In command line / terminal:
 ```
-mkdir ArgonaughtTest
-cd ArgonaughtTest
+mkdir ArgonautTest
+cd ArgonautTest
 dotnet new webapi
-dotnet add package Argonaught -v 1.0.2-beta
+dotnet add package Argonaut -v 1.0.2-beta
 dotnet restore
 ```
 
@@ -23,8 +23,8 @@ code .
 
 Open *Startup.cs* and add the following imports:
 ```csharp
-using Argonaught;
-using Argonaught.Model;
+using Argonaut;
+using Argonaut.Model;
 using System.Security.Claims;
 ```
 
@@ -42,15 +42,15 @@ public void ConfigureServices(IServiceCollection services)
     });
 
     //The audience details will normally be stored as environment variables in the app using the tokens for authorisation / authenticaion.
-    var audience = ArgonaughtTesting.Audiences.FirstOrDefault(x => x.Id == "ExampleAudience1");
-    services.AddArgonaught(audience);
+    var audience = ArgonautTesting.Audiences.FirstOrDefault(x => x.Id == "ExampleAudience1");
+    services.AddArgonaut(audience);
     //End new code.
 }
 ```
 
-Underneath the *Startup* class, copy and paste the following static class, this contains an example of everything needed for Argonaught configuration. There is no need to pay attention to this yet. Details are provided below this tutorial.
+Underneath the *Startup* class, copy and paste the following static class, this contains an example of everything needed for Argonaut configuration. There is no need to pay attention to this yet. Details are provided below this tutorial.
 ```csharp
-public static class ArgonaughtTesting
+public static class ArgonautTesting
 {
     private static readonly string _issuer = "ExampleIssuer";
     public static Audience ExampleAudience1 { get { return new Audience("ExampleAudience1", _issuer, "mysecret123mysecret123", true, 4320, "*"); } }
@@ -141,16 +141,16 @@ public static class ArgonaughtTesting
     }
 
     //Methods and Functions
-    public static ArgonaughtUser ExampleValidateUserFunction(string username, string password, string audienceId)
+    public static ArgonautUser ExampleValidateUserFunction(string username, string password, string audienceId)
     {
-        //Called by Argonaught when a user attempts to get an access token using a username and password.
+        //Called by Argonaut when a user attempts to get an access token using a username and password.
         //Validate user with database and return claims
         //This function should also validate that this user is allowed to be part of the audience passed in above. It will then return the full audience object.
         //There may be one or several audiences available to the app.
         //If this user does not match the audience, the user should be marked as invalid and null passed as the audience.
         var userValidated = true;
-        var au = ArgonaughtTesting.ExampleAudience1;
-        var user = new ArgonaughtUser(userValidated, au);
+        var au = ArgonautTesting.ExampleAudience1;
+        var user = new ArgonautUser(userValidated, au);
         user.Claims.Add(new Claim("canDoThis", "True"));
         user.Claims.Add(new Claim("canDoThat", "True"));
 
@@ -159,10 +159,10 @@ public static class ArgonaughtTesting
 
     public static RefreshResponse ExampleRefreshResponse(string refreshToken)
     {
-        //Called by Argonaught when the client requests a new access token using a refresh token.
+        //Called by Argonaut when the client requests a new access token using a refresh token.
         //Requires 2 objects from db: 
-        var rfshToken = ArgonaughtTesting.ExampleRefreshToken;//The full RefreshToken object, found using the refreshTokenId (the hashed client refresh token)
-        var aud = ArgonaughtTesting.ExampleAudience1;//... and the audience object associated with the refresh token.
+        var rfshToken = ArgonautTesting.ExampleRefreshToken;//The full RefreshToken object, found using the refreshTokenId (the hashed client refresh token)
+        var aud = ArgonautTesting.ExampleAudience1;//... and the audience object associated with the refresh token.
 
         var refreshResponse = new RefreshResponse(rfshToken, aud);
         return refreshResponse;
@@ -170,7 +170,7 @@ public static class ArgonaughtTesting
 
     public static void ExampleRefreshTokenGeneratedHandler(IRefreshToken refreshToken)
     {
-        //Called by Argonaught whenever it creates a new refresh token.
+        //Called by Argonaut whenever it creates a new refresh token.
         //Save new refresh token to database and delete any relevant existing tokens for this user (i.e. same audience).
         var myRefreshToken = RefreshToken.NewFromObjectImplementingInterface(refreshToken);
 
@@ -180,20 +180,20 @@ public static class ArgonaughtTesting
 }
 ```
 
-In Startup.cs, **Configure** method add Argonaught to the pipeline, as below. **Note**, it is important that Argonaught is added **before**  `app.UseMvc();`:
+In Startup.cs, **Configure** method add Argonaut to the pipeline, as below. **Note**, it is important that Argonaut is added **before**  `app.UseMvc();`:
 ```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 {
     loggerFactory.AddConsole(Configuration.GetSection("Logging"));
     loggerFactory.AddDebug();
     
-    //New code. Place Argonaught before app.UseMvc();
+    //New code. Place Argonaut before app.UseMvc();
     //This will be persisted on the authorisation/authentication server.
     var argonautOptions = new ArgonautOptions(
-        ArgonaughtTesting.Audiences, 
-        ArgonaughtTesting.ExampleValidateUserFunction, 
-        ArgonaughtTesting.ExampleRefreshResponse, 
-        ArgonaughtTesting.ExampleRefreshTokenGeneratedHandler);
+        ArgonautTesting.Audiences, 
+        ArgonautTesting.ExampleValidateUserFunction, 
+        ArgonautTesting.ExampleRefreshResponse, 
+        ArgonautTesting.ExampleRefreshTokenGeneratedHandler);
     argonautOptions.AccessTokenLifetimeMinutes = 60;
 
     app.UseArgonaut(argonautOptions);
@@ -232,7 +232,7 @@ public class ValuesController : Controller
 ...
 ```
 
-`AuthorizeClaim` is available here: `using Argonaught.Authentication.Authorization;`
+`AuthorizeClaim` is available here: `using Argonaut.Authentication.Authorization;`
 
 The attribute code is also included at the bottom in case developers want to modify it.
 
@@ -240,7 +240,7 @@ ___
 
 ### Seperate Authentication Server
 
-It is possible to use Argonaught on both the authentication server (whose job it is to check the user's password and permissions and return the access token) and the data server (that only needs to check the user has the correct claims).
+It is possible to use Argonaut on both the authentication server (whose job it is to check the user's password and permissions and return the access token) and the data server (that only needs to check the user has the correct claims).
 
 If a server only needs to verify permissions and not create the tokens, only pass in the audiences to the ArgonautOptions object. The features relating to creating the tokens will then be turned off 
 
@@ -273,7 +273,7 @@ password:test123
 audience:ExampleAudience1
 ```
 
-<img src="http://i58.photobucket.com/albums/g257/Argonaught/AccessToken_zpso1yxam6b.jpg" alt="Access Token Image" width=400px/>
+<img src="http://i58.photobucket.com/albums/g257/Argonaut/AccessToken_zpso1yxam6b.jpg" alt="Access Token Image" width=400px/>
 
 ___
 
@@ -296,7 +296,7 @@ refresh_token:61422b7c3843478184772fb75313123b
 ```
 *\*Note: If using the testing code above it is important that this refresh token is used (61422b7c3843478184772fb75313123b).*
 
-<img src="http://i58.photobucket.com/albums/g257/Argonaught/RefreshToken_zps2o1wb8jt.jpg" alt="Refresh Token Image" width=400px/>
+<img src="http://i58.photobucket.com/albums/g257/Argonaut/RefreshToken_zps2o1wb8jt.jpg" alt="Refresh Token Image" width=400px/>
 
 
 ___
@@ -311,25 +311,25 @@ Accept:application/json
 Origin:http://localhost:4200
 Authorization:Bearer generated_access_token
 ```
-<img src="http://i58.photobucket.com/albums/g257/Argonaught/Data_zpsrnwct6ek.jpg" alt="Data Image" width=400px/>
+<img src="http://i58.photobucket.com/albums/g257/Argonaut/Data_zpsrnwct6ek.jpg" alt="Data Image" width=400px/>
 
 ___
 
 
-### Argonaught Options Object
+### Argonaut Options Object
 
-This is needed to add Argonaught to the pipeline.
+This is needed to add Argonaut to the pipeline.
 
 Required parameters must be passed in at the point of initialisation.
 
 `IEnumerable<Audience> Audiences`
 **Required** A collection of one or more audiences (audience object outlined below) that the application will use to validate against. An access token will contain the name and terms of an audience. When validating the application will check that the bearer access token passed in by the request matches one of the audience objects in this collection.
 
-`Func<string, string, string, ArgonaughtUser> ValidateUser`
-**Required** Called by Argonaught when a user attempts to login by passing a username, password and audience Id. This function should check with the database that the user is allowed access to the requested audience and pass back the user's claims, along with the full audience object.
+`Func<string, string, string, ArgonautUser> ValidateUser`
+**Required** Called by Argonaut when a user attempts to login by passing a username, password and audience Id. This function should check with the database that the user is allowed access to the requested audience and pass back the user's claims, along with the full audience object.
 
 `Func<string, RefreshResponse> RefreshAccessToken`
-**Required** This function is called when the client requests a new access token using a refresh token. Argonaught will hash the refresh token passed in by the client and pass it to this function. Use it to find the full refresh token object (that will have been saved using the `RefreshTokenGenerated` method noted below) and the associated audience object in the db and pass these back in a RefreshReponse object. Argonaught will then take care to validate that it hasn't expired and generate a new access token for the user. If this function returns null it is assumed a refresh token couldn't be found and the user will receive an Unauthorized 401 response.
+**Required** This function is called when the client requests a new access token using a refresh token. Argonaut will hash the refresh token passed in by the client and pass it to this function. Use it to find the full refresh token object (that will have been saved using the `RefreshTokenGenerated` method noted below) and the associated audience object in the db and pass these back in a RefreshReponse object. Argonaut will then take care to validate that it hasn't expired and generate a new access token for the user. If this function returns null it is assumed a refresh token couldn't be found and the user will receive an Unauthorized 401 response.
 
 `Action<RefreshToken> RefreshTokenGenerated`
 **Required** Called whenever a refresh token has been generated. Use this function to store the RefreshToken object in the database for later validation when a new access token is requested by a client using their refresh token. It is recommended to delete any existing relevant tokens for the user before saving the new one. The RefreshToken object contains the encrypted ticket (listing authenticaion claims) and the hashed id of the refresh token itself.
@@ -358,7 +358,7 @@ To be persisted by the application, presumably in a database.
 
 `Secret` *Used to authenticate the access token to prevent tampering. Keep this as hidden as possible.*
 
-`Active` *Not used by Argonaught. To be used at the user's discretion.*
+`Active` *Not used by Argonaut. To be used at the user's discretion.*
 
 `RefreshTokenLifetimeMinutes` *The refresh token can be used to generate another access token without the user needing to login again. The duration of this feature can be set here.*
 
@@ -369,7 +369,7 @@ To be persisted by the application, presumably in a database.
 
 To be persisted by the application, presumably in a database.
 
-`Id` *String. Primary key. Created by Argonaught. This is the hashed refresh token.*
+`Id` *String. Primary key. Created by Argonaut. This is the hashed refresh token.*
 
 `Subject` *The sub of the access token. This will be the username passed in by the user when logging in and can be used to revoke refresh tokens for users by deleting them from the database.*
 
@@ -379,7 +379,7 @@ To be persisted by the application, presumably in a database.
 
 `ExpiresUtc` *Universal time of expiry.*
 
-`ProtectedTicket` *The encrypted access token containing the claims for the user. Argonaught will decrypt and use this to regenerate the claims for a new access token. This means that if a user's claims are changed they either need to log out and log in again or you can force them to do so by deleting their refresh token in the databse.*
+`ProtectedTicket` *The encrypted access token containing the claims for the user. Argonaut will decrypt and use this to regenerate the claims for a new access token. This means that if a user's claims are changed they either need to log out and log in again or you can force them to do so by deleting their refresh token in the databse.*
 
 
 ### AuthorizeClaimAttribute
@@ -391,7 +391,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Argonaught.Authentication.Authorization {
+namespace Argonaut.Authentication.Authorization {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeClaimAttribute : TypeFilterAttribute {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.RequestTypes.RequestOrigin.Interfaces
+namespace Argonaut.Internal.RequestTypes.RequestOrigin.Interfaces
 {
     internal interface IRequestTypeOrigin
     {

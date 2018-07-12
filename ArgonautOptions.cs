@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Argonaught.Model;
+using Argonaut.Model;
 
-namespace Argonaught {
+namespace Argonaut {
     public class ArgonautOptions {
-        public ArgonautOptions(IEnumerable<IAudience> audiences, Func<string, string, string, ArgonaughtUser> validateUser, Func<string, RefreshResponse> refreshAccessToken, Action<IRefreshToken> refreshTokenGenerated) {
+        public ArgonautOptions(IEnumerable<IAudience> audiences, Func<string, string, string, ArgonautUser> validateUser, Func<string, RefreshResponse> refreshAccessToken, Action<IRefreshToken> refreshTokenGenerated) {
             var myName = nameof(ArgonautOptions);
 
             if (audiences == null)
@@ -42,15 +42,15 @@ namespace Argonaught {
         public IEnumerable<IAudience> Audiences { get; private set; }
 
         /// <summary>
-        /// Called by Argonaught when a user attempts to login by passing a username, password and audience.
+        /// Called by Argonaut when a user attempts to login by passing a username, password and audience.
         /// This function should check with the database that the user is allowed access to the requested audience and pass back the user's claims, along with the full audience object.
         /// </summary>
-        public Func<string, string, string, ArgonaughtUser> ValidateUser { get; private set; }
+        public Func<string, string, string, ArgonautUser> ValidateUser { get; private set; }
 
         /// <summary>
         /// This function is called when the user requests a new access token using a refresh token.
         /// It receives a refreshTokenId. Use it to find the full refresh token and the associated audience object in the db and pass these back in a RefreshReponse object.
-        /// Argonaught will then take care to validate that it hasn't expired and generate a new access token for the user. 
+        /// Argonaut will then take care to validate that it hasn't expired and generate a new access token for the user. 
         /// If this function returns null it is assumed a refresh token couldn't be found and the user will receive an Unauthorized 401 response.
         /// </summary>
         /// /// <returns>RefreshResponse</returns>
@@ -68,7 +68,7 @@ namespace Argonaught {
         public int AccessTokenLifetimeMinutes { get; set; } = 5;
 
         /// <summary>
-        /// Defaults to false. If true, Argonaught will create endpoints for creating access and refresh tokens, Otherwise it will only handle authorising existing access tokens.
+        /// Defaults to false. If true, Argonaut will create endpoints for creating access and refresh tokens, Otherwise it will only handle authorising existing access tokens.
         /// </summary>
         public bool IncludeAuthGeneration { get; private set; }
 

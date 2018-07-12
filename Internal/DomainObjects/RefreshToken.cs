@@ -1,8 +1,8 @@
 using System;
 using System.Security.Cryptography;
-using Argonaught.Internal.Interfaces;
+using Argonaut.Internal.Interfaces;
 
-namespace Argonaught.Internal.DomainObjects {
+namespace Argonaut.Internal.DomainObjects {
     internal class RefreshToken {
         private string _token = "";
         public string Id { get; private set; }
@@ -16,7 +16,7 @@ namespace Argonaught.Internal.DomainObjects {
 
         private RefreshToken(string token, string subject, string audienceId, DateTime issuedUtc, DateTime expiresUtc, string protectedTicket) {
             _token = token;
-            this.Id = Argonaught.Internal.Hashing.GetHash(token);
+            this.Id = Argonaut.Internal.Hashing.GetHash(token);
             this.Subject = subject;
             this.AudienceId = audienceId;
             this.IssuedUtc = issuedUtc;
@@ -39,7 +39,7 @@ namespace Argonaught.Internal.DomainObjects {
         public static RefreshToken New(string token, string subject, string audienceId, DateTime issuedUtc, DateTime expiresUtc, string protectedTicket) {
             var rt = new RefreshToken();
             rt.SetToken(token);
-            rt.Id = Argonaught.Internal.Hashing.GetHash(token);
+            rt.Id = Argonaut.Internal.Hashing.GetHash(token);
             rt.Subject = subject;
             rt.AudienceId = audienceId;
             rt.IssuedUtc = issuedUtc;

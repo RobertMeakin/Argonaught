@@ -1,4 +1,4 @@
-namespace Argonaught.Model
+namespace Argonaut.Model
 {
     public class RefreshResponse
     {

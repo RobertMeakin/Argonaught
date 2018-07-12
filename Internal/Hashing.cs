@@ -1,7 +1,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace Argonaught.Internal {
+namespace Argonaut.Internal {
     internal class Hashing {
         public static string GetHash(string input) {
             HashAlgorithm hashAlgorithm = SHA256.Create();

@@ -1,8 +1,8 @@
-using Argonaught.Internal.RequestTypes.RequestFormat.Interfaces;
-using Argonaught.Internal.RequestTypes.RequestOrigin.Interfaces;
-using Argonaught.Internal.RequestTypes.RequestResponse.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestFormat.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestOrigin.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestResponse.Interfaces;
 
-namespace Argonaught.Internal.RequestTypes.Interfaces
+namespace Argonaut.Internal.RequestTypes.Interfaces
 {
     internal interface IRequestType
     {

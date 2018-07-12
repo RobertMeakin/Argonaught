@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Argonaught.Authentication.Authorization {
+namespace Argonaut.Authentication.Authorization {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeClaimAttribute : TypeFilterAttribute {

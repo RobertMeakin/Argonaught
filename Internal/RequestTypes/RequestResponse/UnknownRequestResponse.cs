@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using Argonaught.Internal.RequestTypes.RequestResponse.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestResponse.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.RequestTypes.RequestResponse
+namespace Argonaut.Internal.RequestTypes.RequestResponse
 {
     internal class UnknownRequestResponse : IRequestTypeReponse
     {

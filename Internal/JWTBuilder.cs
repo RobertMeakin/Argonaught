@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Argonaught.Model;
+using Argonaut.Model;
 using Microsoft.IdentityModel.Tokens;
-using Domain = Argonaught.Internal.DomainObjects;
+using Domain = Argonaut.Internal.DomainObjects;
 
-namespace Argonaught.Internal {
+namespace Argonaut.Internal {
     //The purpose of this class is to take the required parameters and generate a JSON Web Token (JWT).
     internal class JWTBuilder {
         private List<Claim> _standardClaims;

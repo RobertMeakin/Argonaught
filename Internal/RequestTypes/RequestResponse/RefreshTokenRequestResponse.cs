@@ -1,15 +1,15 @@
 using System.Threading.Tasks;
-using Argonaught.Internal;
-using Argonaught.Internal.Interfaces;
-using Argonaught.Internal.RequestTypes.RequestResponse.Interfaces;
-using Domain = Argonaught.Internal.DomainObjects;
+using Argonaut.Internal;
+using Argonaut.Internal.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestResponse.Interfaces;
+using Domain = Argonaut.Internal.DomainObjects;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Argonaught.Internal.RequestTypes.RequestResponse {
+namespace Argonaut.Internal.RequestTypes.RequestResponse {
     internal class RefreshTokenRequestResponse : IRequestTypeReponse {
         private JWTBuilder _jwtBuilder;
         private IEncryptor _encryptor;
@@ -19,7 +19,7 @@ namespace Argonaught.Internal.RequestTypes.RequestResponse {
         }
         public async Task Execute(RequestDelegate next, HttpContext context, ArgonautOptions options) {
             var rtFromRequest = context.Request.Form["refresh_token"];
-            var hashedRefreshTokenId = Argonaught.Internal.Hashing.GetHash(rtFromRequest);
+            var hashedRefreshTokenId = Argonaut.Internal.Hashing.GetHash(rtFromRequest);
 
             var persistenceResponse = options.RefreshAccessToken(hashedRefreshTokenId); //Client returns refresh token model with encrpted ticket.
 

@@ -1,15 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Argonaught.Internal;
-using Argonaught.Internal.Middleware;
-using Argonaught.Model;
+using Argonaut.Internal;
+using Argonaut.Internal.Middleware;
+using Argonaut.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 
-namespace Argonaught {
-    public static class ArgonaughtBuilderExtensions {
+namespace Argonaut {
+    public static class ArgonautBuilderExtensions {
 
         public static IApplicationBuilder UseArgonaut(this IApplicationBuilder app, ArgonautOptions argonautOptions) {
             if (app == null)

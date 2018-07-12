@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.Middleware
+namespace Argonaut.Internal.Middleware
 {
     internal class PreflightPolicy
     {

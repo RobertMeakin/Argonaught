@@ -1,11 +1,11 @@
-using Argonaught.Internal.Interfaces;
+using Argonaut.Internal.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Argonaught.Internal
+namespace Argonaut.Internal
 {
     //https://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp
     internal class StringCipher : IEncryptor

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Argonaught.Internal.RequestTypes.Interfaces;
+using Argonaut.Internal.RequestTypes.Interfaces;
 
-namespace Argonaught.Internal.RequestTypes
+namespace Argonaut.Internal.RequestTypes
 {
     internal static class ArgonautRequestTypes
     {

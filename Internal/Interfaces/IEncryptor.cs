@@ -1,4 +1,4 @@
-namespace Argonaught.Internal.Interfaces
+namespace Argonaut.Internal.Interfaces
 {
     internal interface IEncryptor
     {

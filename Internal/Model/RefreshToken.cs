@@ -1,7 +1,7 @@
 using System;
-using Argonaught.Model;
+using Argonaut.Model;
 
-namespace Argonaught.Internal.Model
+namespace Argonaut.Internal.Model
 {
 
     internal class RefreshToken : IRefreshToken

@@ -1,7 +1,7 @@
-using Argonaught.Internal.RequestTypes.RequestOrigin.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestOrigin.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.RequestTypes.RequestOrigin
+namespace Argonaut.Internal.RequestTypes.RequestOrigin
 {
     internal class RefreshTokenRequestOrigin : IRequestTypeOrigin
     {

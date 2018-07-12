@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.RequestTypes.RequestResponse.Interfaces
+namespace Argonaut.Internal.RequestTypes.RequestResponse.Interfaces
 {
     internal interface IRequestTypeReponse
     {

@@ -1,11 +1,11 @@
 using System.Linq;
-using Argonaught.Internal.RequestTypes;
-using Argonaught.Internal.RequestTypes.Interfaces;
+using Argonaut.Internal.RequestTypes;
+using Argonaut.Internal.RequestTypes.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal {
+namespace Argonaut.Internal {
     internal static class HttpContextExtentions {
-        internal static IRequestType GetArgonaughtRequestType(this HttpContext context, string apiPath, bool includeAuthGeneration) {
+        internal static IRequestType GetArgonautRequestType(this HttpContext context, string apiPath, bool includeAuthGeneration) {
 
             if (context.Request.Path.ToString().ToLower().Contains(apiPath.ToLower()))
                 return new BearerRequestType();

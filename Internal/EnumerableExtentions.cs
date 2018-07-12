@@ -2,9 +2,9 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Argonaught.Model;
+using Argonaut.Model;
 
-namespace Argonaught.Internal
+namespace Argonaut.Internal
 {
     internal static class EnumerableExtentions
     {

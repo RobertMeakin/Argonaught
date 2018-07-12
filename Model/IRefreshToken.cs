@@ -1,12 +1,12 @@
 using System;
 
-namespace Argonaught.Model
+namespace Argonaut.Model
 {
 
     public interface IRefreshToken
     {
         /// <summary>
-        /// The primary key. Created by Argonaught. This is the hashed refresh token.
+        /// The primary key. Created by Argonaut. This is the hashed refresh token.
         /// </summary>
         string Id { get; }
 

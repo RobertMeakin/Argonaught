@@ -1,10 +1,10 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using Argonaught.Internal.RequestTypes.RequestOrigin.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestOrigin.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace Argonaught.Internal.RequestTypes.RequestOrigin
+namespace Argonaut.Internal.RequestTypes.RequestOrigin
 {
     internal class BearerRequestOrigin : IRequestTypeOrigin
     {

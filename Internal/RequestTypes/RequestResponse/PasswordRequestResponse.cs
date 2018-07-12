@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using Argonaught.Internal;
-using Argonaught.Internal.Interfaces;
-using Argonaught.Internal.RequestTypes.RequestResponse.Interfaces;
+using Argonaut.Internal;
+using Argonaut.Internal.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestResponse.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Argonaught.Internal.RequestTypes.RequestResponse
+namespace Argonaut.Internal.RequestTypes.RequestResponse
 {
     internal class PasswordRequestResponse : IRequestTypeReponse
     {
@@ -24,7 +24,7 @@ namespace Argonaught.Internal.RequestTypes.RequestResponse
             var password = context.Request.Form["password"];
             var audienceId = context.Request.Form["audience"];
 
-            var userValidation = options.ValidateUser.Invoke(username, password, audienceId); //Passback ArgonaughtUser, which should include audience.
+            var userValidation = options.ValidateUser.Invoke(username, password, audienceId); //Passback ArgonautUser, which should include audience.
 
             if (!userValidation.Validated)
             {

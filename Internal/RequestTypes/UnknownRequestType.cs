@@ -1,12 +1,12 @@
-using Argonaught.Internal.RequestTypes.Interfaces;
-using Argonaught.Internal.RequestTypes.RequestFormat;
-using Argonaught.Internal.RequestTypes.RequestFormat.Interfaces;
-using Argonaught.Internal.RequestTypes.RequestOrigin;
-using Argonaught.Internal.RequestTypes.RequestOrigin.Interfaces;
-using Argonaught.Internal.RequestTypes.RequestResponse;
-using Argonaught.Internal.RequestTypes.RequestResponse.Interfaces;
+using Argonaut.Internal.RequestTypes.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestFormat;
+using Argonaut.Internal.RequestTypes.RequestFormat.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestOrigin;
+using Argonaut.Internal.RequestTypes.RequestOrigin.Interfaces;
+using Argonaut.Internal.RequestTypes.RequestResponse;
+using Argonaut.Internal.RequestTypes.RequestResponse.Interfaces;
 
-namespace Argonaught.Internal.RequestTypes
+namespace Argonaut.Internal.RequestTypes
 {
     internal class UnknownRequestType : IRequestType
     {
