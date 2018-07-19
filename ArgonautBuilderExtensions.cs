@@ -18,13 +18,13 @@ namespace Argonaut {
             if (argonautOptions == null)
                 throw new ArgumentNullException(nameof(argonautOptions));
 
-            app.UseMiddleware<PreflightPolicy>(argonautOptions.APIPath);
+            app.UseMiddleware<PreflightPolicy>(Options.Create(argonautOptions));
             app.UseMiddleware<FindRequestType>(Options.Create(argonautOptions));
             app.UseMiddleware<RequestFormatPolicy>(Options.Create(argonautOptions));
             app.UseMiddleware<OriginPolicy>(Options.Create(argonautOptions));
             app.UseMiddleware<ResponsePolicy>(Options.Create(argonautOptions));
             app.UseAuthentication();
-            
+
             return app;
         }
 
