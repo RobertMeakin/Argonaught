@@ -20,7 +20,7 @@ namespace Argonaut.Internal.Middleware {
             var path = context.Request.Path.Value;
             if ( (path.Contains(_options.APIPath) || path.Contains(_options.TokenPath)) && context.Request.Method == "OPTIONS") {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", new [] { context.Request.Headers["Origin"].ToString() });
-                context.Response.Headers.Add("Access-Control-Allow-Headers", new [] { "Authorization, Origin, X-Requested-With, Content-Type, Accept" });
+                context.Response.Headers.Add("Access-Control-Allow-Headers", new [] { "Authorization, Origin, X-Requested-With, Content-Type, Accept", "Prefer", "Expect" });
                 context.Response.Headers.Add("Access-Control-Allow-Methods", new [] { "GET, POST, PUT, PATCH, DELETE, OPTIONS" });
                 context.Response.Headers.Add("Access-Control-Allow-Credentials", new [] { "true" });
                 return;
