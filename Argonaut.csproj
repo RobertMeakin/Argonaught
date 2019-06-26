@@ -15,6 +15,6 @@
     <Authors>Robert Meakin</Authors>
     <PackageVersion>2.0.11-beta</PackageVersion>
     <Description>An easy to use library that helps developers of .NET Core mvc/webapi applications create and use access and refresh tokens for authentication.</Description>
-    <PackageProjectUrl>https://github.com/RobertMeakin/Argonaut</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/RobertMeakin/Argonaught</PackageProjectUrl>
   </PropertyGroup>
 </Project>
