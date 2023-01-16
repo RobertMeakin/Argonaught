@@ -1,19 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.0" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
   </ItemGroup>
   <PropertyGroup>
     <Title>Argonaut</Title>
     <Authors>Robert Meakin</Authors>
-    <PackageVersion>2.0.12-beta</PackageVersion>
+    <PackageVersion>6.0.0-beta</PackageVersion>
     <Description>An easy to use library that helps developers of .NET Core mvc/webapi applications create and use access and refresh tokens for authentication.</Description>
     <PackageProjectUrl>https://github.com/RobertMeakin/Argonaught</PackageProjectUrl>
   </PropertyGroup>
